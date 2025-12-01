@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>THE SUM · AI 감성 직업상담 베타 (내부 테스트용)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans KR", sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+      margin: 0;
+      padding: 0;
+    }
+    .wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+    h1, h2, h3 {
+      margin: 0 0 12px;
+      font-weight: 700;
+    }
+    h1 { font-size: 24px; }
+    h2 { font-size: 20px; margin-top: 24px; }
+    h3 { font-size: 16px; margin-top: 16px; }
+    p { margin: 4px 0 10px; line-height: 1.6; }
+    .tagline {
+      font-size: 13px;
+      color: #38bdf8;
+      margin-bottom: 4px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .section-box {
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: radial-gradient(circle at top, #0f172a, #020617 70%);
+      padding: 16px 14px 14px;
+      margin-top: 16px;
+    }
+    .hint {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+    textarea, select, input[type="text"], input[type="number"] {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+      color: #e5e7eb;
+      padding: 8px 10px;
+      font-size: 13px;
+      box-sizing: border-box;
+      margin-top: 6px;
+    }
+    textarea { min-height: 90px; resize: vertical; }
+    label { font-size: 13px; display: block; margin-top: 10px; }
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .pill {
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: #cbd5f5;
+    }
+    .score-box {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .score-item {
+      font-size: 12px;
+      border-radius: 10px;
+      border: 1px dashed rgba(148, 163, 184, 0.7);
+      padding: 8px 8px 6px;
+    }
+    .score-item input {
+      width: 100%;
+      margin-top: 4px;
+      font-size: 12px;
+      padding: 4px 6px;
+    }
+    .btn-primary {
+      margin-top: 20px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #38bdf8, #a855f7);
+      color: #020617;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .result-box {
+      margin-top: 24px;
+      border-radius: 14px;
+      border: 1px solid rgba(56, 189, 248, 0.7);
+      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.18), #020617 70%);
+      padding: 14px 14px 16px;
+      display: none;
+      font-size: 13px;
+      white-space: pre-wrap;
+    }
+    .result-box h3 { margin-top: 0; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 11px;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="tagline">THE SUM · CAREER VIBE BETA</div>
+    <h1>AI 감성 직업상담 베타 (내부 테스트용)</h1>
+    <p class="hint">
+      SUM이 직접 사용해 보면서, 질문 구조와 결과 해석 방식을 다듬어갈 수 있는 1차 프로토타입입니다.<br />
+      나중에 이 구조를 그대로 구글폼/노션폼/웹앱으로 옮길 수 있도록 설계했습니다.
+    </p>
+
+    <!-- 1. 기본 정보 및 현재 고민 맥락 -->
+    <div class="section-box">
+      <h2>1. 지금, 어떤 방향에서 길을 잃은 느낌인지</h2>
+      <p class="hint">직업, 관계, 건강, 돈, 가족… 여러 벡터 중 어디에서 가장 흔들리는지부터 가볍게 짚어봅니다.</p>
+
+      <label>① 현재 당신이 가장 고민하는 영역(최대 2개 정도 느낌으로 적기)</label>
+      <div class="pill-row hint">
+        <span class="pill">진로/직업 선택</span>
+        <span class="pill">이직/커리어 전환</span>
+        <span class="pill">회사 내 관계</span>
+        <span class="pill">성과/실적 압박</span>
+        <span class="pill">건강·번아웃</span>
+        <span class="pill">가족/돌봄</span>
+        <span class="pill">재정/노후</span>
+      </div>
+      <input type="text" id="focusArea" placeholder="예: 이직/커리어 전환, 건강·번아웃" />
+
+      <label>② 지난 6~12개월을 한 문단으로 요약한다면?</label>
+      <textarea id="lastYear" placeholder="예: 1년 전만 해도 일이 재미있었는데, 최근 6개월은 출근 자체가 너무 힘들어졌습니다..."></textarea>
+
+      <label>③ 요즘 가장 자주 떠오르는 생각이나 문장은?</label>
+      <textarea id="autoThought" placeholder="예: '이렇게 사는 게 맞나', '이 회사를 벗어나면 더 나을까' 등 떠오르는 문장을 솔직하게 적어주세요."></textarea>
+    </div>
+
+    <!-- 2. 감정 강도 & 에너지 벡터 -->
+    <div class="section-box">
+      <h2>2. 감정과 에너지의 벡터 상태</h2>
+      <p class="hint">지금 마음이 어디를 향하고 있는지(끌리는 방향, 피하고 싶은 방향)를 수치로 간단히 찍어봅니다.</p>
+
+      <div class="score-box">
+        <div class="score-item">
+          <strong>일에 대한 에너지</strong><br />
+          <span class="hint">0(완전 방전) ~ 10(매우 충전)</span>
+          <input type="number" id="scoreWork" min="0" max="10" placeholder="예: 3" />
+        </div>
+        <div class="score-item">
+          <strong>관계에서의 에너지</strong><br />
+          <span class="hint">동료·가족·친구와의 관계</span>
+          <input type="number" id="scoreRelation" min="0" max="10" placeholder="예: 6" />
+        </div>
+        <div class="score-item">
+          <strong>몸·건강 상태</strong><br />
+          <span class="hint">피로, 수면, 통증 등</span>
+          <input type="number" id="scoreHealth" min="0" max="10" placeholder="예: 4" />
+        </div>
+      </div>
+
+      <label>④ 지금 가장 강하게 느끼는 감정 3가지를 적어보면?</label>
+      <input type="text" id="emotionWords" placeholder="예: 무기력, 분노, 미안함" />
+
+      <label>⑤ 지금 '당장 도망치고 싶은 것'과 '조금이라도 붙잡고 싶은 것'을 한 줄씩 적어본다면?</label>
+      <textarea id="runHold" placeholder="예: 도망치고 싶은 것 - 과도한 야근과 상사의 말투 / 붙잡고 싶은 것 - 동료들과의 팀워크와 월급"></textarea>
+    </div>
+
+    <!-- 3. 방향성 선호 (벡터 방향) -->
+    <div class="section-box">
+      <h2>3. 머리가 끌리는 방향 vs 가슴이 끌리는 방향</h2>
+      <p class="hint">의사결정에서 자주 충돌하는 두 벡터를 미리 구분해 둡니다.</p>
+
+      <label>⑥ '머리로는 이렇게 해야 한다고 생각하는 방향'</label>
+      <textarea id="headDirection" placeholder="예: 대기업 이직 준비를 계속하면서, 현재 회사에서 1~2년은 더 버티는 게 맞다고 생각합니다."></textarea>
+
+      <label>⑦ '가슴으로는 이렇게 살고 싶다고 느끼는 방향'</label>
+      <textarea id="heartDirection" placeholder="예: 사람을 직접 만나고 돕는 일을 오래 하고 싶고, 속도가 조금 느려도 괜찮을 것 같습니다."></textarea>
+
+      <label>⑧ 현실적으로 가장 걸리는 제약 조건 (3개 이내)</label>
+      <input type="text" id="constraints" placeholder="예: 대출, 자녀 교육비, 건강, 경력 단절에 대한 두려움 등" />
+    </div>
+
+    <!-- 4. 3개월 안에 바꾸고 싶은 것 -->
+    <div class="section-box">
+      <h2>4. 향후 3개월, '방향' 관점에서 바꾸고 싶은 것</h2>
+      <p class="hint">거창한 인생계획이 아니라, 3개월 동안의 작은 방향 수정만 생각해 봅니다.</p>
+
+      <label>⑨ 3개월 뒤, 지금과 비교해 '이 정도만 달라져도 좋겠다' 싶은 상태</label>
+      <textarea id="threeMonths" placeholder="예: 출근이 덜 두렵고, 주말에 최소 하루는 온전히 쉬고 싶다. 이직을 할지 말지에 대한 기준이 조금 더 명확해졌으면 좋겠다."></textarea>
+
+      <label>⑩ 그 상태에 가까워지기 위해, 현실적으로 해볼 수 있을 것 같은 행동 3가지</label>
+      <textarea id="actions" placeholder="예: (1) 주 1회 이상 23시 이전 취침, (2) 현재 회사에서 하기 싫은 업무 1가지를 줄이기 위한 상의, (3) 관심 직무 재직자 2명과 대화 약속 잡기 등"></textarea>
+    </div>
+
+    <!-- 5. 결과 생성 버튼 & 간단 해석(프론트단 모의 로직) -->
+    <button class="btn-primary" onclick="generateResult()">간단 AI 감성 리포트 생성 (모의)</button>
+
+    <div id="result" class="result-box">
+      <div class="badge">THE SUM · CAREER VIBE · MOCK RESULT</div>
+      <h3>요약 감정/상황 진단 & 방향 제안</h3>
+      <div id="resultText"></div>
+    </div>
+  </div>
+
+  <script>
+    // 아주 단순한 규칙 기반 모의 분석 로직 (SUM이 구조 느낌만 테스트하도록)
+    function generateResult() {
+      const scoreWork = Number(document.getElementById('scoreWork').value || 0);
+      const scoreRelation = Number(document.getElementById('scoreRelation').value || 0);
+      const scoreHealth = Number(document.getElementById('scoreHealth').value || 0);
+      const emotions = (document.getElementById('emotionWords').value || '').trim();
+      const focusArea = (document.getElementById('focusArea').value || '').trim();
+      const headDir = (document.getElementById('headDirection').value || '').trim();
+      const heartDir = (document.getElementById('heartDirection').value || '').trim();
+      const threeMonths = (document.getElementById('threeMonths').value || '').trim();
+      const actions = (document.getElementById('actions').value || '').trim();
+
+      let energyMsg = '';
+      const avgEnergy = (scoreWork + scoreRelation + scoreHealth) / 3;
+      if (avgEnergy <= 3) {
+        energyMsg = '에너지 총량이 전반적으로 매우 낮은 편입니다. 지금은 큰 결정보다, 몸과 마음의 회복을 최우선으로 두는 것이 안전합니다.';
+      } else if (avgEnergy <= 6) {
+        energyMsg = '에너지가 완전히 고갈된 상태는 아니지만, 여기저기 새고 있는 구간이 보입니다. 무리한 이직·퇴사 결정보다는, 먼저 새고 있는 부분을 막는 작은 조정이 필요해 보입니다.';
+      } else {
+        energyMsg = '기본 에너지 수준은 비교적 양호한 편입니다. 다만 방향성이 명확하지 않다면, 에너지가 분산되어 소진될 수 있으니 선택과 집중이 중요합니다.';
+      }
+
+      let workMsg = '';
+      if (scoreWork <= 3) {
+        workMsg = '일에 대한 에너지가 거의 바닥에 가깝습니다. 이 상태에서 억지로 성과만 끌어올리려 하면 번아웃 가능성이 큽니다.';
+      } else if (scoreWork <= 6) {
+        workMsg = '일이 싫기만 한 것은 아니지만, 의미와 보상이 어긋나 있는 느낌입니다. 역할·관계·보상 중 어디에서 가장 어긋나는지 구분해 보는 것이 좋겠습니다.';
+      } else {
+        workMsg = '일 자체에 대한 에너지는 여전히 살아 있습니다. 다만 주변 환경이나 장기 방향이 불안해서 고민이 커진 것일 수 있습니다.';
+      }
+
+      let focusMsg = '';
+      if (focusArea) {
+        focusMsg = `현재 스스로 인식하는 핵심 고민 영역은 [${focusArea}] 입니다. 이 부분을 중심 벡터로 놓고, 다른 요소들(관계, 건강, 재정 등)을 보조 벡터로 보는 것이 좋아 보입니다.`;
+      }
+
+      let emotionMsg = '';
+      if (emotions) {
+        emotionMsg = `지금 가장 강하게 느끼는 감정 키워드는 [${emotions}] 로 보입니다. 이 감정들이 언제, 누구와 있을 때 특히 강해지는지 추적해 보면 방향 설정에 큰 힌트를 얻을 수 있습니다.`;
+      }
+
+      let directionMsg = '';
+      if (headDir && heartDir) {
+        directionMsg = `머리가 말하는 방향과 가슴이 원하는 방향이 서로 어떻게 다른지 이미 잘 알고 계신 것 같습니다.
+
+[머리의 방향]
+${headDir}
+
+[가슴의 방향]
+${heartDir}
+
+THE SUM의 코칭에서는 이 두 벡터가 완전히 충돌하는 지점이 어디인지, 그리고 겹치는 공통 구간이 어디인지부터 차분히 찾게 됩니다. 그 공통 구간이 바로 3개월 액션 플랜의 출발점이 됩니다.`;
+      }
+
+      let planMsg = '';
+      if (threeMonths || actions) {
+        planMsg = `3개월 후 바라는 상태와 그때까지 시도해 볼 행동들을 이미 적어보셨습니다.
+
+[3개월 후 바라는 상태]
+${threeMonths}
+
+[시도해 볼 수 있는 행동들]
+${actions}
+
+이 행동들이 현실에서 작게나마 실행된다면, 지금의 고민은 '모든 걸 바꾸고 싶다'에서 '조금씩 조정해 볼 수 있다' 쪽으로 이동할 가능성이 큽니다.`;
+      }
+
+      const resultParts = [energyMsg, workMsg, focusMsg, emotionMsg, directionMsg, planMsg].filter(Boolean);
+      const resultText = resultParts.join('\n\n---\n\n');
+
+      document.getElementById('resultText').textContent =
+        resultText || '입력된 정보가 많지 않아, 아직 명확한 분석을 내리기 어렵습니다. 몇 가지 질문에 조금 더 솔직하게 적어보시면 좋겠습니다.';
+      document.getElementById('result').style.display = 'block';
+      window.scrollTo({ top: document.getElementById('result').offsetTop - 40, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
