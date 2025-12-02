@@ -179,7 +179,7 @@
     .user-greeting {
       font-size: 12px;
       color: var(--text-muted);
-      min-width: 140px;
+      min-width: 160px;
       text-align: right;
     }
 
@@ -793,7 +793,7 @@
       color: var(--text-muted);
     }
 
-    /* 게시판 레이아웃 재사용 */
+    /* 게시판 레이아웃 */
     .board-list-wrapper {
       max-height: 260px;
       overflow-y: auto;
@@ -887,6 +887,7 @@
         <!-- 상단 오른쪽: 로그인 상태 + 버튼들 -->
         <div class="nav-right">
           <div id="header-greeting" class="user-greeting">게스트로 접속 중입니다.</div>
+          <button type="button" id="logout-btn" class="btn btn-outline" style="display:none;">로그아웃</button>
           <!-- 요구사항 1, 2: 두 버튼 모두 CONTACT 섹션으로 이동 -->
           <a href="#contact" class="btn btn-outline">기업 문의</a>
           <a href="#contact" class="btn btn-primary">개인 상담 문의</a>
@@ -1629,6 +1630,36 @@
       return res.json();
     }
 
+    // ====== 로그인 UI 공통 업데이트 ======
+    function updateLoginUI(user) {
+      const status = document.getElementById("login-status");
+      const headerGreeting = document.getElementById("header-greeting");
+      const logoutBtn = document.getElementById("logout-btn");
+
+      if (user) {
+        const name = user.name || "회원";
+        if (status) {
+          status.textContent = `${name}님, 로그인된 상태입니다.`;
+        }
+        if (headerGreeting) {
+          headerGreeting.textContent = `${name}님, 환영합니다.`;
+        }
+        if (logoutBtn) {
+          logoutBtn.style.display = "inline-flex";
+        }
+      } else {
+        if (status) {
+          status.textContent = "아직 로그인하지 않으셨습니다.";
+        }
+        if (headerGreeting) {
+          headerGreeting.textContent = "게스트로 접속 중입니다.";
+        }
+        if (logoutBtn) {
+          logoutBtn.style.display = "none";
+        }
+      }
+    }
+
     // ====== 회원가입 ======
     async function handleSignup(e) {
       e.preventDefault();
@@ -1677,23 +1708,13 @@
         password: form.password.value,
       };
 
-      const status = document.getElementById("login-status");
-      const headerGreeting = document.getElementById("header-greeting");
-
       try {
         const data = await apiRequest("/api/login", {
           method: "POST",
           body: JSON.stringify(payload),
         });
         localStorage.setItem("the_sum_user", JSON.stringify(data.user));
-
-        if (status) {
-          status.textContent = `${data.user.name || "회원"}님, 로그인되었습니다.`;
-        }
-        if (headerGreeting) {
-          headerGreeting.textContent = `${data.user.name || "회원"}님, 환영합니다.`;
-        }
-
+        updateLoginUI(data.user);
         alert("로그인 성공 (백엔드 연동)");
       } catch (err) {
         console.warn("[LOGIN: API 오류] 로컬 검증으로 대체", err.message);
@@ -1704,32 +1725,31 @@
           return;
         }
         localStorage.setItem("the_sum_user", JSON.stringify(found));
-        if (status) {
-          status.textContent = `${found.name || "회원"}님, (로컬 기준) 로그인되었습니다.`;
-        }
-        if (headerGreeting) {
-          headerGreeting.textContent = `${found.name || "회원"}님, 환영합니다.`;
-        }
+        updateLoginUI(found);
         alert("(데모) 이 브라우저에 저장된 데이터 기준으로 로그인되었습니다.");
       }
     }
 
+    // ====== 로그아웃 ======
+    function handleLogout() {
+      localStorage.removeItem("the_sum_user");
+      updateLoginUI(null);
+      alert("로그아웃되었습니다.");
+    }
+
+    // ====== 페이지 로드 시 로그인 상태 복원 ======
     function hydrateLoginStatus() {
-      const status = document.getElementById("login-status");
-      const headerGreeting = document.getElementById("header-greeting");
       const saved = localStorage.getItem("the_sum_user");
-      if (!saved) return;
+      if (!saved) {
+        updateLoginUI(null);
+        return;
+      }
       try {
         const user = JSON.parse(saved);
-        if (user && user.name) {
-          if (status) {
-            status.textContent = `${user.name}님, 로그인된 상태입니다.`;
-          }
-          if (headerGreeting) {
-            headerGreeting.textContent = `${user.name}님, 환영합니다.`;
-          }
-        }
-      } catch {}
+        updateLoginUI(user);
+      } catch {
+        updateLoginUI(null);
+      }
     }
 
     // ====== 게시판 렌더링 ======
@@ -1852,6 +1872,9 @@
 
       const loginForm = document.getElementById("login-form");
       if (loginForm) loginForm.addEventListener("submit", handleLogin);
+
+      const logoutBtn = document.getElementById("logout-btn");
+      if (logoutBtn) logoutBtn.addEventListener("click", handleLogout);
 
       const boardForm = document.getElementById("board-form");
       if (boardForm) boardForm.addEventListener("submit", handleBoardSubmit);
