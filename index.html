@@ -169,6 +169,20 @@
       background: rgba(15, 23, 42, 0.9);
     }
 
+    /* 상단 로그인 상태 영역 */
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .user-greeting {
+      font-size: 12px;
+      color: var(--text-muted);
+      min-width: 140px;
+      text-align: right;
+    }
+
     .section {
       padding: 56px 0;
     }
@@ -870,7 +884,9 @@
           <a href="#location">위치</a>
           <a href="#contact">문의</a>
         </nav>
-        <div style="display:flex; gap:8px;">
+        <!-- 상단 오른쪽: 로그인 상태 + 버튼들 -->
+        <div class="nav-right">
+          <div id="header-greeting" class="user-greeting">게스트로 접속 중입니다.</div>
           <!-- 요구사항 1, 2: 두 버튼 모두 CONTACT 섹션으로 이동 -->
           <a href="#contact" class="btn btn-outline">기업 문의</a>
           <a href="#contact" class="btn btn-primary">개인 상담 문의</a>
@@ -983,7 +999,7 @@
         </div>
       </section>
 
-      <!-- WHAT WE DO (의사결정 컨설팅 → AI 감성 순서) -->
+      <!-- WHAT WE DO -->
       <section id="services" class="section">
         <div class="container">
           <div class="section-header">
@@ -1032,7 +1048,7 @@
         </div>
       </section>
 
-      <!-- CORE SERVICES (IT/컨설팅 1열 → 직업상담 2열) -->
+      <!-- CORE SERVICES -->
       <section id="core-services" class="section" style="scroll-margin-top: 80px;">
         <div class="container">
           <div class="section-header">
@@ -1131,7 +1147,7 @@
         </div>
       </section>
 
-      <!-- WHY THE SUM FOR BUSINESS (위쪽으로 이동) -->
+      <!-- WHY THE SUM FOR BUSINESS -->
       <section id="business-why" class="section" style="scroll-margin-top: 80px;">
         <div class="container">
           <div class="section-header">
@@ -1170,7 +1186,7 @@
         </div>
       </section>
 
-      <!-- WHY THE SUM FOR INDIVIDUALS (아래로 배치) -->
+      <!-- WHY THE SUM FOR INDIVIDUALS -->
       <section id="individual-detail" class="section" style="scroll-margin-top: 80px;">
         <div class="container">
           <div class="section-header">
@@ -1354,6 +1370,10 @@
                   로그인
                 </button>
               </form>
+              <!-- 로그인 상태 텍스트 -->
+              <p id="login-status" style="margin-top:8px; font-size:12px; color:var(--text-muted);">
+                아직 로그인하지 않으셨습니다.
+              </p>
 
               <hr style="border: none; border-top: 1px dashed rgba(148,163,184,0.4); margin: 16px 0;" />
 
@@ -1658,6 +1678,7 @@
       };
 
       const status = document.getElementById("login-status");
+      const headerGreeting = document.getElementById("header-greeting");
 
       try {
         const data = await apiRequest("/api/login", {
@@ -1665,9 +1686,14 @@
           body: JSON.stringify(payload),
         });
         localStorage.setItem("the_sum_user", JSON.stringify(data.user));
+
         if (status) {
           status.textContent = `${data.user.name || "회원"}님, 로그인되었습니다.`;
         }
+        if (headerGreeting) {
+          headerGreeting.textContent = `${data.user.name || "회원"}님, 환영합니다.`;
+        }
+
         alert("로그인 성공 (백엔드 연동)");
       } catch (err) {
         console.warn("[LOGIN: API 오류] 로컬 검증으로 대체", err.message);
@@ -1681,18 +1707,27 @@
         if (status) {
           status.textContent = `${found.name || "회원"}님, (로컬 기준) 로그인되었습니다.`;
         }
+        if (headerGreeting) {
+          headerGreeting.textContent = `${found.name || "회원"}님, 환영합니다.`;
+        }
         alert("(데모) 이 브라우저에 저장된 데이터 기준으로 로그인되었습니다.");
       }
     }
 
     function hydrateLoginStatus() {
       const status = document.getElementById("login-status");
+      const headerGreeting = document.getElementById("header-greeting");
       const saved = localStorage.getItem("the_sum_user");
-      if (!saved || !status) return;
+      if (!saved) return;
       try {
         const user = JSON.parse(saved);
         if (user && user.name) {
-          status.textContent = `${user.name}님, 로그인된 상태입니다.`;
+          if (status) {
+            status.textContent = `${user.name}님, 로그인된 상태입니다.`;
+          }
+          if (headerGreeting) {
+            headerGreeting.textContent = `${user.name}님, 환영합니다.`;
+          }
         }
       } catch {}
     }
@@ -1833,5 +1868,3 @@
   </script>
 </body>
 </html>
-
-
