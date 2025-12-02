@@ -653,6 +653,42 @@
       margin-right: 4px;
     }
 
+    form.contact-form {
+      display: grid;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 12px;
+    }
+
+    .field label {
+      color: var(--text-muted);
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.9);
+      padding: 7px 9px;
+      color: var(--text-main);
+      font-size: 13px;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
+    }
+
     textarea {
       resize: vertical;
       min-height: 70px;
@@ -694,11 +730,70 @@
       box-shadow: 0 10px 30px rgba(56, 189, 248, 0.5);
     }
 
-    /* Responsive */
+    /* 회원가입 섹션 추가 스타일 */
+    .signup-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .signup-panel,
+    .signup-steps {
+      background: radial-gradient(circle at top, var(--bg-section), #020617 80%);
+      border-radius: 22px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 18px 18px 16px;
+      font-size: 13px;
+    }
+
+    .signup-form-group {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .signup-steps-list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .signup-step-item {
+      border-radius: 14px;
+      padding: 10px 10px 8px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .signup-step-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .signup-step-body {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* 게시판 레이아웃 재사용 */
+    .board-list-wrapper {
+      max-height: 260px;
+      overflow-y: auto;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
     @media (max-width: 960px) {
       .hero-grid,
       .culture-grid,
-      .two-col {
+      .two-col,
+      .signup-grid {
         grid-template-columns: minmax(0, 1fr);
       }
 
@@ -763,7 +858,7 @@
           <img src="THE-SUM-LOGO.jpg" alt="THE SUM 로고" class="logo-img" />
           <div>
             <div class="logo-text-main">THE SUM</div>
-            <div class="logo-text-sub">IT & 의사결정 컨설팅·AI 감성 직업상담</div>
+            <div class="logo-text-sub">AI 감성 직업상담 · IT & 의사결정 컨설팅</div>
           </div>
         </div>
         <nav class="nav-links" aria-label="메인 메뉴">
@@ -776,8 +871,9 @@
           <a href="#contact">문의</a>
         </nav>
         <div style="display:flex; gap:8px;">
-          <a href="#business-why" class="btn btn-outline">기업 15분 미니 브리핑 예약</a>
-          <a href="#individual-detail" class="btn btn-primary">개인 15분 무료 사전상담 신청</a>
+          <!-- 요구사항 1, 2: 두 버튼 모두 CONTACT 섹션으로 이동 -->
+          <a href="#contact" class="btn btn-outline">기업 문의</a>
+          <a href="#contact" class="btn btn-primary">개인 상담 문의</a>
         </div>
       </div>
     </header>
@@ -789,9 +885,11 @@
           <div>
             <div class="hero-kicker">SUPPORT YOUR DECISION MAKING</div>
             <h1>
-              AI 시대,
-              <span style="background: linear-gradient(90deg, var(--accent), var(--accent-secondary)); -webkit-background-clip: text; color: transparent;">당신의 의사결정을 완성하는 곳</span><br />
-              THE SUM
+              비즈니스 최적화와<br />
+              <span style="background: linear-gradient(90deg, var(--accent), var(--accent-secondary)); -webkit-background-clip: text; color: transparent;">
+                인생의 방향 설계
+              </span>
+              를 함께 돕는 파트너
             </h1>
             <p class="hero-lead">
               THE SUM은 IT·데이터·의사결정 컨설팅과
@@ -800,8 +898,8 @@
               <strong>"나다운 일"과 인생 2막</strong>을 제안합니다.
             </p>
             <div class="hero-cta">
-              <a href="#business-why" class="btn btn-primary">기업 · 조직 컨설팅 살펴보기</a>
-              <a href="#individual-detail" class="btn btn-outline">AI 감성 직업상담 알아보기</a>
+              <a href="#business-why" class="btn btn-primary">IT·데이터 컨설팅 보기</a>
+              <a href="#individual-detail" class="btn btn-outline">AI 감성 직업상담 살펴보기</a>
             </div>
             <div class="hero-meta">
               <div class="hero-tag">
@@ -827,13 +925,13 @@
                   </span>
                 </div>
                 <p style="font-size: 13px; color: var(--text-main);">
-                  최근 6개월 이상 이어진 업무 피로와 관계 소진이 동시에 나타나는 상태입니다.
+                  업무 의미 상실과 관계 소진이 동시에 나타나는 상태입니다.
                   지금은 퇴사 결정보다 <strong>감정 회복과 일-삶 경계 설정</strong>을 우선하는 것이 안전합니다.
                 </p>
                 <div class="hero-ai-badges">
-                  <span class="chip">자유서술형 텍스트 AI 분석</span>
-                  <span class="chip">감정·스트레스 패턴 시각화</span>
-                  <span class="chip">3개월 회복 액션 플랜 제안</span>
+                  <span class="chip">감정 키워드 분석</span>
+                  <span class="chip">직무·관계 스트레스 패턴</span>
+                  <span class="chip">3개월 회복 플랜 제안</span>
                 </div>
               </div>
               <div class="hero-card-footer">
@@ -847,7 +945,7 @@
                     <div class="hero-avatar"></div>
                     <div class="hero-avatar"></div>
                   </div>
-                  <div style="margin-top: 4px;">최근 파일럿 상담 만족도 <strong>4.8 / 5.0</strong></div>
+                  <div style="margin-top: 4px;">최근 30일 상담 만족도 <strong>4.8 / 5.0</strong></div>
                 </div>
               </div>
             </div>
@@ -862,7 +960,7 @@
             <div class="badge"><span class="badge-dot"></span> ABOUT THE SUM</div>
             <h2>THE SUM — 방향을 제시하는 의사결정 스튜디오</h2>
             <p class="sub">
-              우리는 데이터·감정·경험을 함께 읽어 <strong>한 사람과 한 조직이 향해야 할 현실적인 방향</strong>을 찾아드립니다.
+              우리는 데이터·감정·경험을 함께 읽어 <strong>한 사람과 한 조직이 향해야 할 정확한 방향</strong>을 찾아드립니다.
             </p>
           </div>
 
@@ -871,8 +969,8 @@
               THE SUM은 이름 그대로 <strong>Support Your Decision Making</strong>, 의사결정을 돕는 스튜디오입니다.
             </p>
             <p>
-              단순한 조언이 아니라, 흩어진 정보와 복잡한 감정 속에서 <strong>핵심 신호를 정확히 추출</strong>하고
-              지금 현실에서 실천 가능한 선택지를 정리해 드립니다.
+              단순한 조언이 아니라, 복잡한 정보와 감정 속에서 <strong>핵심 신호를 정확히 추출</strong>하고
+              가장 현실적인 선택지를 정리해 드립니다.
             </p>
             <p>
               AI가 구조화한 패턴과 사람이 가진 해석력을 결합해
@@ -881,41 +979,6 @@
             <p style="margin-top: 8px; color: var(--accent); font-weight: 500;">
               THE SUM — 방향을 만드는 의사결정 파트너.
             </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- FOUNDER INTRO -->
-      <section id="founder" class="section" style="padding-top: 32px;">
-        <div class="container">
-          <div class="section-header" style="margin-bottom: 18px;">
-            <div class="badge"><span class="badge-dot"></span> FOUNDER</div>
-            <h2>대표 소개 · 누가 함께 걷나요?</h2>
-            <p class="sub">1인 기업인 만큼, 누구와 함께하는지 아는 것이 중요하다고 생각합니다.</p>
-          </div>
-
-          <div class="split-grid">
-            <article class="split-card">
-              <h3>임정욱 (SUM) · IT & 커리어 컨설턴트</h3>
-              <ul class="split-list">
-                <li>1990년대 초부터 30년 이상 <strong>IT·디지털 업계 영업 및 컨설팅</strong> 경험</li>
-                <li>공공·환경·스마트시티 분야에서 다수의 <strong>프로젝트 제안, 입찰, 컨설팅 수행</strong></li>
-                <li>중소·중견기업 경영진과의 협업, 의사결정 지원 경험 다수</li>
-                <li>자기 탐색과 직업 선택에 관심이 많은 <strong>ENFJ 성향</strong>의 커뮤니케이터</li>
-              </ul>
-            </article>
-
-            <article class="split-card">
-              <h3>왜 THE SUM을 시작했나요?</h3>
-              <p>
-                기업과 오랫동안 일하면서, "<strong>좋은 의사결정</strong> 하나가 사람과 조직의 삶을 얼마나 바꾸는지"를 보았습니다.
-                동시에, 직장인과 청년·시니어들의 진로 고민도 가까이에서 듣게 되었습니다.
-              </p>
-              <p>
-                그래서 <strong>AI 도구</strong>와 제가 가진 경험을 합쳐,
-                "너무 거창하지 않지만 지금 당장 도움이 되는" 현실적인 의사결정 파트너가 되고자 THE SUM을 만들었습니다.
-              </p>
-            </article>
           </div>
         </div>
       </section>
@@ -938,14 +1001,14 @@
               <div class="split-tag">FOR BUSINESS & IT</div>
               <h3>의사결정 컨설팅 · IT 솔루션 · 데이터 분석</h3>
               <p>
-                스타트업부터 공공기관까지, <strong>새로운 프로젝트와 투자</strong> 앞에서
-                어떤 선택이 지금 조직에 가장 맞는지 함께 정리합니다.
+                IT 회사 및 일반 기업을 위한 <strong>의사결정 컨설팅과 디지털 전환</strong> 지원 서비스입니다.
+                빠르고 올바른 선택이 조직의 성장을 이끈다고 믿습니다.
               </p>
               <ul class="split-list">
-                <li>신규 사업·투자·파트너 선정 등 <strong>의사결정 프레임 설계</strong></li>
-                <li>Notion·Slack·Google Workspace 등 <strong>SaaS 도입·활용 전략</strong></li>
-                <li>매출·고객·운영 데이터를 활용한 <strong>대시보드·리포트 구조 설계</strong></li>
-                <li>실무자 중심의 <strong>데이터 리터러시·AI 도구 활용 교육</strong></li>
+                <li>비즈니스 의사결정 컨설팅 (전략·프로젝트·투자 등)</li>
+                <li>IT 솔루션 제안 및 구축 방향 자문</li>
+                <li>데이터 분석·리포트 설계</li>
+                <li>임직원 교육 및 워크샵 기획</li>
               </ul>
               <a href="#business-detail" class="btn btn-outline" style="margin-top: 6px;">기업·IT 컨설팅 자세히 보기</a>
             </article>
@@ -959,9 +1022,9 @@
                 감정과 데이터를 동시에 보며 <strong>"나다운 선택"과 "가능한 다음 스텝"</strong>을 설계합니다.
               </p>
               <ul class="split-list">
-                <li>텍스트·설문을 기반으로 한 <strong>AI 감성 리포트 + 1:1 코칭</strong></li>
-                <li>진로 방향·전공 선택을 돕는 <strong>청소년·청년 진로 나침반</strong></li>
-                <li>퇴직 전후를 준비하는 <strong>중장년 커리어 리셋 & 시니어 라이프 디자인</strong></li>
+                <li>AI 감성 리포트 + 1:1 코칭 (THE SUM CAREER VIBE)</li>
+                <li>청소년·청년 진로 나침반 프로그램</li>
+                <li>중장년 커리어 리셋 & 시니어 라이프 디자인</li>
               </ul>
               <a href="#individual-detail" class="btn btn-outline" style="margin-top: 6px;">직업상담 서비스 자세히 보기</a>
             </article>
@@ -986,7 +1049,7 @@
               <p>
                 신규 사업, IT 투자, 파트너 선정 등 중요한 기로에서
                 다양한 시나리오를 함께 검토하고
-                <strong>신속하면서도 타당한 의사결정</strong>을 돕습니다.
+                <strong>신속하고도 타당한 의사결정</strong>을 돕습니다.
               </p>
               <div class="card-footer">
                 <span>IT·서비스·공공 등</span>
@@ -1003,8 +1066,8 @@
                 현업 언어와 기술 언어를 모두 이해하는 <strong>브릿지 역할</strong>을 합니다.
               </p>
               <div class="card-footer">
-                <span>업무자동화 · 리포트 설계</span>
-                <span>스타트업 · 중소·중견기업</span>
+                <span>IT 솔루션 방향 설정</span>
+                <span>데이터 리포트 설계</span>
               </div>
             </article>
 
@@ -1068,12 +1131,12 @@
         </div>
       </section>
 
-      <!-- WHY THE SUM FOR BUSINESS (위쪽) -->
+      <!-- WHY THE SUM FOR BUSINESS (위쪽으로 이동) -->
       <section id="business-why" class="section" style="scroll-margin-top: 80px;">
         <div class="container">
           <div class="section-header">
             <div class="badge"><span class="badge-dot"></span> WHY THE SUM FOR BUSINESS</div>
-            <h2>올바르고 신속한 의사결정을 지원하는 파트너</h2>
+            <h2>올바르고 신속한 의사결정을 지원하는 전문가</h2>
             <p class="sub">
               THE SUM은 3년 전부터 IT 회사 및 일반 기업의 의사결정을 돕는
               전문 컨설팅 회사로 출발했습니다. 지금도 그 DNA는 그대로입니다.
@@ -1084,30 +1147,30 @@
             <article class="split-card">
               <h3>왜 THE SUM을 선택해야 하는가?</h3>
               <ul class="split-list">
-                <li><strong>현장 경험</strong> · 공공·환경·스마트시티 등 다양한 산업 프로젝트 수행</li>
-                <li><strong>브릿지 역할</strong> · 경영진과 실무자, 비즈니스와 IT를 잇는 커뮤니케이션</li>
-                <li><strong>실행 중심</strong> · 보고서보다, 조직이 바로 움직일 수 있는 실행안을 중시</li>
-                <li><strong>지속 동행</strong> · 프로젝트 이후에도 필요 시 가벼운 챙김과 점검 제공</li>
+                <li><strong>전문성</strong> · 다양한 산업에서의 경험과 전문 지식을 갖춘 컨설턴트 팀</li>
+                <li><strong>맞춤형 서비스</strong> · 고객의 고유한 요구사항을 반영한 솔루션</li>
+                <li><strong>혁신적인 접근</strong> · 최신 기술과 방법론을 활용한 문제 해결</li>
+                <li><strong>지속적인 지원</strong> · 프로젝트 이후에도 이어지는 후속 자문</li>
               </ul>
             </article>
             <article class="split-card">
               <h3>대표 프로젝트 유형 (예시)</h3>
               <ul class="split-list">
-                <li>디지털 전환·스마트 환경 구축 <strong>전략 자문</strong></li>
-                <li>데이터 기반 <strong>의사결정 프로세스</strong> 설계</li>
-                <li>조직·프로젝트 구조 재설계 <strong>워크샵</strong></li>
+                <li>디지털 전환·스마트 환경 구축 전략 자문</li>
+                <li>데이터 기반 의사결정 프로세스 설계</li>
+                <li>조직·프로젝트 구조 재설계 워크샵</li>
                 <li>실무자 교육 (데이터 리터러시, AI 도구 활용 등)</li>
               </ul>
               <p style="color: var(--text-muted); margin-top: 4px;">
                 구체적인 레퍼런스는 1:1 문의 시, 보안 범위 내에서만 공유드립니다.
               </p>
-              <a href="#contact" class="btn btn-outline" style="margin-top: 6px;">기업·기관 15분 미니 브리핑 요청</a>
+              <a href="#contact" class="btn btn-outline" style="margin-top: 6px;">15분 미니 브리핑 예약</a>
             </article>
           </div>
         </div>
       </section>
 
-      <!-- WHY THE SUM FOR INDIVIDUALS -->
+      <!-- WHY THE SUM FOR INDIVIDUALS (아래로 배치) -->
       <section id="individual-detail" class="section" style="scroll-margin-top: 80px;">
         <div class="container">
           <div class="section-header">
@@ -1125,7 +1188,7 @@
               <h3>감정 & 상황 인텐시브 수집</h3>
               <p>
                 최근 6~12개월의 일·관계·건강 상황을 중심으로 마음을 충분히 털어놓는 단계입니다.
-                자유서술형 텍스트와 간단한 설문을 함께 활용합니다.
+                텍스트는 AI가, 맥락은 코치가 함께 읽습니다.
               </p>
             </article>
             <article class="step">
@@ -1174,60 +1237,10 @@
               </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      <!-- CASES / TESTIMONIAL 스타일 시나리오 -->
-      <section id="cases" class="section">
-        <div class="container">
-          <div class="section-header">
-            <div class="badge"><span class="badge-dot"></span> HOW IT CAN HELP</div>
-            <h2>THE SUM을 만났을 때 달라지는 장면들 (예상 사례)</h2>
-            <p class="sub">실제 초기 상담과 비슷한 패턴을 바탕으로 만든 가상의 시나리오입니다.</p>
-          </div>
-
-          <div class="cards-grid">
-            <article class="card">
-              <div class="card-tag">CAREER CASE</div>
-              <h3>막연히 "개발자"를 꿈꾸던 취준생 A씨</h3>
-              <p>
-                Before · 전공도 애매하고, 코딩 학원만 전전하며 자신감이 떨어진 상태.<br />
-                After · AI 감성 리포트와 대화 코칭을 통해, 데이터 분석 쪽 적성이 더 크다는 것을 발견.
-                3개월 로드맵 후 첫 인턴십 합류.
-              </p>
-              <div class="card-footer">
-                <span>THE SUM CAREER VIBE</span>
-                <span>3개월 액션 플랜</span>
-              </div>
-            </article>
-
-            <article class="card">
-              <div class="card-tag">MIDLIFE CASE</div>
-              <h3>"이직 vs 버티기" 사이에서 고민하던 40대 직장인 B씨</h3>
-              <p>
-                Before · 회사에 대한 피로는 크지만, 막상 나가려니 두려운 상태.<br />
-                After · 바로 이직이 아니라, 조직 내 역할 조정과 외부 프로젝트를 병행하는
-                <strong>중간 시나리오</strong>를 설계해 불안을 줄임.
-              </p>
-              <div class="card-footer">
-                <span>감정·재무·가족 상황 통합 검토</span>
-                <span>리스크 분산</span>
-              </div>
-            </article>
-
-            <article class="card">
-              <div class="card-tag">BUSINESS CASE</div>
-              <h3>재고와 인력 운용이 막막했던 소규모 쇼핑몰 C사</h3>
-              <p>
-                Before · 어떤 상품에 집중해야 할지 몰라 매달 재고 부담이 커지는 상황.<br />
-                After · 판매 데이터와 고객 문의를 함께 분석해, 집중 판매군을 정리하고
-                간단한 자동화 툴을 도입해 <strong>재고·업무 시간 모두 20~30% 절감</strong>.
-              </p>
-              <div class="card-footer">
-                <span>데이터 리포트 재설계</span>
-                <span>업무 자동화 컨설팅</span>
-              </div>
-            </article>
+          <!-- 개인 15분 무료상담 신청 버튼 -->
+          <div style="margin-top: 22px; display:flex; flex-wrap:wrap; gap:10px;">
+            <a href="#contact" class="btn btn-primary">개인 15분 무료상담 신청</a>
           </div>
         </div>
       </section>
@@ -1255,7 +1268,7 @@
           <aside class="culture-card">
             <h3 style="margin-bottom: 8px;">처음 오신 분께 드리는 가이드</h3>
             <ol style="padding-left: 16px; display: grid; gap: 6px;">
-              <li>개인이라면 <strong>무료 사전진단</strong>, 기업이라면 <strong>15분 미니 브리핑</strong>을 신청해 주세요.</li>
+              <li>개인이라면 <strong>무료 사전진단</strong>, 기업이라면 <strong>간단 브리핑</strong>을 신청해 주세요.</li>
               <li>72시간 이내에 요약 리포트와 함께, 적합한 서비스/프로그램을 제안해 드립니다.</li>
               <li>원하실 때만 다음 단계(1:1 상담·워크샵·프로젝트)를 함께 논의합니다.</li>
             </ol>
@@ -1312,6 +1325,179 @@
         </div>
       </section>
 
+      <!-- 회원가입 / 로그인 + 신청~접수 프로세스 -->
+      <section id="signup" class="section" style="scroll-margin-top: 80px;">
+        <div class="container">
+          <div class="section-header">
+            <div class="badge"><span class="badge-dot"></span> MEMBER SIGN-UP</div>
+            <h2>회원가입 · 로그인 후 베타 서비스 이용하기</h2>
+            <p class="sub">
+              THE SUM의 AI 감성 직업상담 및 IT 컨설팅 베타 프로그램은
+              회원 등록 후 6개월 동안 우선적으로 제공됩니다. (예정 구조)
+            </p>
+          </div>
+
+          <div class="signup-grid">
+            <!-- LEFT: 로그인 / 회원가입 폼 -->
+            <div class="signup-panel">
+              <h3>로그인</h3>
+              <form id="login-form" class="signup-form-group">
+                <div class="field">
+                  <label for="login-email">이메일</label>
+                  <input id="login-email" name="email" type="email" placeholder="you@example.com" />
+                </div>
+                <div class="field">
+                  <label for="login-password">비밀번호</label>
+                  <input id="login-password" name="password" type="password" placeholder="비밀번호를 입력하세요" />
+                </div>
+                <button type="submit" class="btn btn-outline" style="width: 100%; justify-content: center;">
+                  로그인
+                </button>
+              </form>
+
+              <hr style="border: none; border-top: 1px dashed rgba(148,163,184,0.4); margin: 16px 0;" />
+
+              <h3>회원가입</h3>
+              <p style="font-size: 12px; color: var(--text-muted);">
+                개인 또는 기업 담당자로 가입하신 뒤, CONTACT를 통해 상담/컨설팅을 신청해 주세요.
+              </p>
+              <form id="signup-form" class="signup-form-group">
+                <div class="field">
+                  <label for="signup-name">이름 / 담당자명</label>
+                  <input id="signup-name" name="name" type="text" placeholder="이름 또는 담당자명을 입력하세요" />
+                </div>
+                <div class="field">
+                  <label for="signup-email">이메일</label>
+                  <input id="signup-email" name="email" type="email" placeholder="연락 가능한 이메일" />
+                </div>
+                <div class="field">
+                  <label for="signup-type">회원 유형</label>
+                  <select id="signup-type" name="memberType">
+                    <option value="individual">개인 (직업·진로 상담)</option>
+                    <option value="business">기업 / 기관 (IT·데이터 컨설팅)</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="signup-password">비밀번호</label>
+                  <input id="signup-password" name="password" type="password" placeholder="비밀번호 (8자 이상 권장)" />
+                </div>
+                <div class="field">
+                  <label>
+                    <input type="checkbox" style="width:auto; margin-right:4px;" />
+                    (예시) 개인정보 처리 및 이용약관에 동의합니다.
+                  </label>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                  회원가입
+                </button>
+              </form>
+            </div>
+
+            <!-- RIGHT: 신청부터 접수까지 프로세스 -->
+            <div class="signup-steps">
+              <h3>신청부터 접수까지, 이렇게 진행됩니다</h3>
+              <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+                아래는 실제 서비스 오픈 시를 가정한 프로세스 예시입니다.
+              </p>
+              <ul class="signup-steps-list">
+                <li class="signup-step-item">
+                  <div class="signup-step-title">STEP 1 · 회원가입 & 문의 남기기</div>
+                  <div class="signup-step-body">
+                    위 회원가입(또는 로그인) 후, <strong>CONTACT</strong> 섹션을 통해
+                    기업 혹은 개인 상담/컨설팅 신청 내용을 남겨 주세요.
+                  </div>
+                </li>
+                <li class="signup-step-item">
+                  <div class="signup-step-title">STEP 2 · 확인 메일 / 문자 발송</div>
+                  <div class="signup-step-body">
+                    접수 후 24시간 이내에, 접수 확인 및 추가 질문이 담긴
+                    <strong>이메일 또는 문자</strong>를 발송해 드립니다.
+                  </div>
+                </li>
+                <li class="signup-step-item">
+                  <div class="signup-step-title">STEP 3 · 담당자 검토 & 제안</div>
+                  <div class="signup-step-body">
+                    작성해주신 내용과 필요 시 추가 질의를 바탕으로,
+                    <strong>적합한 서비스 유형과 15분 브리핑 일정</strong>을 제안해 드립니다.
+                  </div>
+                </li>
+                <li class="signup-step-item">
+                  <div class="signup-step-title">STEP 4 · 최종 일정 확정 & 접수 완료</div>
+                  <div class="signup-step-body">
+                    일정/조건에 동의하시면, 브리핑 또는 상담이
+                    <strong>최종 확정</strong>되며,
+                    이후부터는 카카오 채널 또는 이메일을 통해 커뮤니케이션 합니다.
+                  </div>
+                </li>
+              </ul>
+              <div style="margin-top: 12px; font-size: 12px; color: var(--text-muted);">
+                ※ 현재 페이지의 회원가입/로그인 폼은 <strong>프런트엔드 + 백엔드 API 연동 전제</strong>로 설계되었습니다.<br />
+                백엔드가 없을 경우, 브라우저 로컬 저장소(localStorage)를 이용한 <strong>미리보기 모드</strong>로 동작합니다.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BOARD: 방문자 인사 게시판 -->
+      <section id="board" class="section" style="scroll-margin-top: 80px;">
+        <div class="container">
+          <div class="section-header">
+            <div class="badge"><span class="badge-dot"></span> BOARD</div>
+            <h2>방문자 인사 게시판</h2>
+            <p class="sub">
+              홈페이지 방문 소감, SUM에게 전하고 싶은 말, 오늘의 한 줄 기록 등을 자유롭게 남겨 주세요.
+              (동일 브라우저에서는 새로고침 후에도 미리보기로 계속 확인할 수 있습니다.)
+            </p>
+          </div>
+
+          <div class="two-col">
+            <!-- 글 작성 카드 -->
+            <aside class="contact-card">
+              <h3 style="margin-bottom: 6px;">글 남기기</h3>
+              <p style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">
+                닉네임만 남기셔도 됩니다. 운영 반영 전에는 이 브라우저 안에서만 저장·편집되는 미리보기 모드입니다.
+              </p>
+              <form id="board-form" style="display:grid; gap:10px;">
+                <div class="field">
+                  <label for="board-name">작성자 이름</label>
+                  <input id="board-name" name="name" type="text" placeholder="이름 또는 닉네임" required />
+                </div>
+                <div class="field">
+                  <label for="board-message">내용</label>
+                  <textarea
+                    id="board-message"
+                    name="message"
+                    rows="3"
+                    required
+                    placeholder="간단한 인사, 응원 메시지, 오늘의 한 줄 기록 등 자유롭게 남겨 주세요."
+                  ></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">
+                  글 남기기
+                </button>
+              </form>
+            </aside>
+
+            <!-- 게시글 목록 카드 -->
+            <aside class="contact-card">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <strong style="font-size:13px;">게시글 목록</strong>
+                <button type="button" id="reload-board" class="btn btn-outline" style="padding:4px 10px; font-size:11px;">
+                  새로고침(미리보기)
+                </button>
+              </div>
+              <div id="board-list" class="board-list-wrapper">
+                <!-- JS에서 게시글이 렌더링됩니다. -->
+              </div>
+              <p style="font-size:11px; color:var(--text-muted); margin-top:8px;">
+                각 글의 "수정" 버튼을 눌러 내용을 바로 편집할 수 있습니다. (백엔드 미연동 시, 이 브라우저에만 저장)
+              </p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
       <!-- 위치 & 문의 -->
       <section id="location" class="section">
         <div class="container two-col">
@@ -1348,7 +1534,7 @@
             <div>
               <div class="section-header" style="margin-bottom: 8px;">
                 <div class="badge"><span class="badge-dot"></span> CONTACT</div>
-                <h2 style="font-size: 20px;">무료 사전진단 · 15분 미니 브리핑 요청</h2>
+                <h2 style="font-size: 20px;">무료 사전진단 · 컨설팅 문의</h2>
                 <p class="sub">
                   아래 버튼을 누르시면 구글폼으로 이동해 보다 자세한 내용을 남기실 수 있습니다.<br />
                   (개인·기업 모두 동일한 폼을 사용하셔도 됩니다.)
@@ -1394,6 +1580,7 @@
         <div>
           <div style="font-weight: 600;">THE SUM</div>
           <div>비즈니스 최적화와 인생의 합(Σ)을 함께 설계하는 컨설팅 & 감성 직업상담 스튜디오</div>
+          <div style="margin-top:4px; font-size:11px;">© <span id="year"></span> THE SUM. All rights reserved.</div>
         </div>
         <div class="footer-links">
           <a href="#top">맨 위로</a>
@@ -1403,6 +1590,248 @@
       </div>
     </footer>
   </div>
+
+  <script>
+    // ====== 공통 유틸: 백엔드 API 연동 + 미리보기 겸용 ======
+    const API_BASE = ""; // 같은 도메인에 Node/Express 백엔드를 두는 경우 "" 그대로 사용
+
+    async function apiRequest(path, options = {}) {
+      const res = await fetch(API_BASE + path, {
+        headers: {
+          "Content-Type": "application/json",
+          ...(options.headers || {}),
+        },
+        ...options,
+      });
+
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || "요청 중 오류가 발생했습니다.");
+      }
+      return res.json();
+    }
+
+    // ====== 회원가입 ======
+    async function handleSignup(e) {
+      e.preventDefault();
+      const form = e.target;
+      const payload = {
+        name: form.name.value.trim(),
+        email: form.email.value.trim(),
+        password: form.password.value,
+        memberType: form.memberType ? form.memberType.value : "individual",
+      };
+
+      if (!payload.name || !payload.email || !payload.password) {
+        alert("이름, 이메일, 비밀번호를 모두 입력해 주세요.");
+        return;
+      }
+
+      try {
+        const data = await apiRequest("/api/signup", {
+          method: "POST",
+          body: JSON.stringify(payload),
+        });
+        alert(data.message || "회원가입이 완료되었습니다.");
+        form.reset();
+      } catch (err) {
+        console.warn("[SIGNUP: API 오류] 로컬 저장으로 대체", err.message);
+        // 백엔드가 없을 때는 로컬 스토리지에 저장 (미리보기용)
+        const users = JSON.parse(localStorage.getItem("the_sum_users") || "[]");
+        const exists = users.some((u) => u.email === payload.email);
+        if (exists) {
+          alert("이미 가입된 이메일입니다.");
+          return;
+        }
+        users.push({ id: Date.now(), ...payload });
+        localStorage.setItem("the_sum_users", JSON.stringify(users));
+        alert("(데모) 이 브라우저에 회원 정보가 저장되었습니다.");
+        form.reset();
+      }
+    }
+
+    // ====== 로그인 ======
+    async function handleLogin(e) {
+      e.preventDefault();
+      const form = e.target;
+      const payload = {
+        email: form.email.value.trim(),
+        password: form.password.value,
+      };
+
+      const status = document.getElementById("login-status");
+
+      try {
+        const data = await apiRequest("/api/login", {
+          method: "POST",
+          body: JSON.stringify(payload),
+        });
+        localStorage.setItem("the_sum_user", JSON.stringify(data.user));
+        if (status) {
+          status.textContent = `${data.user.name || "회원"}님, 로그인되었습니다.`;
+        }
+        alert("로그인 성공 (백엔드 연동)");
+      } catch (err) {
+        console.warn("[LOGIN: API 오류] 로컬 검증으로 대체", err.message);
+        const users = JSON.parse(localStorage.getItem("the_sum_users") || "[]");
+        const found = users.find((u) => u.email === payload.email && u.password === payload.password);
+        if (!found) {
+          alert("이메일 또는 비밀번호를 확인해 주세요.");
+          return;
+        }
+        localStorage.setItem("the_sum_user", JSON.stringify(found));
+        if (status) {
+          status.textContent = `${found.name || "회원"}님, (로컬 기준) 로그인되었습니다.`;
+        }
+        alert("(데모) 이 브라우저에 저장된 데이터 기준으로 로그인되었습니다.");
+      }
+    }
+
+    function hydrateLoginStatus() {
+      const status = document.getElementById("login-status");
+      const saved = localStorage.getItem("the_sum_user");
+      if (!saved || !status) return;
+      try {
+        const user = JSON.parse(saved);
+        if (user && user.name) {
+          status.textContent = `${user.name}님, 로그인된 상태입니다.`;
+        }
+      } catch {}
+    }
+
+    // ====== 게시판 렌더링 ======
+    function renderBoard(posts) {
+      const container = document.getElementById("board-list");
+      if (!container) return;
+      container.innerHTML = "";
+
+      if (!posts || posts.length === 0) {
+        container.innerHTML =
+          '<div style="color:var(--text-muted);">아직 게시글이 없습니다. 첫 글을 남겨 보세요.</div>';
+        return;
+      }
+
+      posts
+        .slice()
+        .sort((a, b) => b.id - a.id)
+        .forEach((post) => {
+          const item = document.createElement("div");
+          item.style.border = "1px solid rgba(148,163,184,0.4)";
+          item.style.borderRadius = "14px";
+          item.style.padding = "8px 10px";
+          item.style.background = "rgba(15,23,42,0.95)";
+
+          const createdAt = post.created_at ? new Date(post.created_at) : new Date(post.id);
+          const timeStr = createdAt.toLocaleString();
+
+          item.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <strong>${post.name || "익명"}</strong>
+              <span style="font-size:11px; color:var(--text-muted);">${timeStr}</span>
+            </div>
+            <div style="white-space:pre-wrap; margin-bottom:6px;">${post.message}</div>
+            <button type="button" data-id="${post.id}" class="btn-edit-post"
+              style="font-size:11px; padding:3px 8px; border-radius:999px; border:1px solid rgba(148,163,184,0.5); background:transparent;">
+              수정
+            </button>
+          `;
+          container.appendChild(item);
+        });
+    }
+
+    // ====== 게시판: 백엔드 우선, 없으면 localStorage 사용 ======
+    async function loadBoard() {
+      try {
+        const data = await apiRequest("/api/posts", { method: "GET" });
+        renderBoard(data.posts || []);
+      } catch (err) {
+        console.warn("[BOARD: API 오류] 로컬 저장으로 대체", err.message);
+        const local = JSON.parse(localStorage.getItem("the_sum_board") || "[]");
+        renderBoard(local);
+      }
+    }
+
+    async function handleBoardSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const payload = {
+        name: form.name.value.trim(),
+        message: form.message.value.trim(),
+      };
+      if (!payload.message) {
+        alert("내용을 입력해 주세요.");
+        return;
+      }
+
+      try {
+        await apiRequest("/api/posts", {
+          method: "POST",
+          body: JSON.stringify(payload),
+        });
+        form.reset();
+        await loadBoard();
+      } catch (err) {
+        console.warn("[BOARD POST: API 오류] 로컬 저장으로 대체", err.message);
+        const local = JSON.parse(localStorage.getItem("the_sum_board") || "[]");
+        const now = Date.now();
+        local.push({ id: now, created_at: new Date(now).toISOString(), ...payload });
+        localStorage.setItem("the_sum_board", JSON.stringify(local));
+        form.reset();
+        renderBoard(local);
+      }
+    }
+
+    async function handleBoardEditClick(e) {
+      const btn = e.target.closest(".btn-edit-post");
+      if (!btn) return;
+      const id = btn.getAttribute("data-id");
+      const newMessage = prompt("수정할 내용을 입력해 주세요:");
+      if (!newMessage) return;
+
+      try {
+        await apiRequest(`/api/posts/${id}`, {
+          method: "PUT",
+          body: JSON.stringify({ message: newMessage }),
+        });
+        await loadBoard();
+      } catch (err) {
+        console.warn("[BOARD EDIT: API 오류] 로컬 수정으로 대체", err.message);
+        const local = JSON.parse(localStorage.getItem("the_sum_board") || "[]");
+        const idx = local.findIndex((p) => String(p.id) === String(id));
+        if (idx === -1) {
+          alert("해당 게시글을 찾을 수 없습니다.");
+          return;
+        }
+        local[idx].message = newMessage;
+        local[idx].updated_at = new Date().toISOString();
+        localStorage.setItem("the_sum_board", JSON.stringify(local));
+        renderBoard(local);
+      }
+    }
+
+    // ====== 초기화 ======
+    document.addEventListener("DOMContentLoaded", () => {
+      const yearEl = document.getElementById("year");
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      const signupForm = document.getElementById("signup-form");
+      if (signupForm) signupForm.addEventListener("submit", handleSignup);
+
+      const loginForm = document.getElementById("login-form");
+      if (loginForm) loginForm.addEventListener("submit", handleLogin);
+
+      const boardForm = document.getElementById("board-form");
+      if (boardForm) boardForm.addEventListener("submit", handleBoardSubmit);
+
+      const reloadBtn = document.getElementById("reload-board");
+      if (reloadBtn) reloadBtn.addEventListener("click", loadBoard);
+
+      const boardList = document.getElementById("board-list");
+      if (boardList) boardList.addEventListener("click", handleBoardEditClick);
+
+      hydrateLoginStatus();
+      loadBoard();
+    });
+  </script>
 </body>
 </html>
-
